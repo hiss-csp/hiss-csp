@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Hierarchical State Space Models for Continuous Sequence-to-Sequence Modeling">
+  <meta name="keywords" content="State Space Models, Sequence-to-Sequence">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hierarchical State Space Models for Continuous Sequence-to-Sequence Modeling</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <!-- <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Hierarchical State Space Models
+            for Continuous Sequence-to-Sequence Modeling</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://raunaqbhirangi.github.io/">Raunaq Bhirangi</a><sup>1,2</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/chenyu-wang-7b13ba200/">Chenyu Wang</a><sup>3</sup>,</span>
+              <span class="author-block">
+                <a href="https://notvenky.github.io/">Venkatesh Pattabiraman</a><sup>3</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.meche.engineering.cmu.edu/directory/bios/majidi-carmel.html">Carmel Majidi</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.cs.cmu.edu/~abhinavg/">Abhinav Gupta</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://tesshellebrekers.com/">Tess Hellebrekers</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.lerrelpinto.com/">Lerrel Pinto</a><sup>3</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Carnegie Mellon Universiy;</span>
+              <span class="author-block"><sup>2</sup>FAIR, Meta;</span>
+              <span class="author-block"><sup>3</sup>New York University</span>
+            </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <!-- <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <!-- <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <!-- <a href="https://github.com/google/nerfies"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <!-- <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">HiSS</span> turns selfie videos from your phone into
+        free-viewpoint
+        portraits.
+      </h2>
+    </div>
+  </div>
+</section> -->
+
+<!--
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/steve.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/chair-tp.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/shiba.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/fullbody.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/blueshirt.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mask.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/toby2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Reasoning from sequences of raw sensory data is a ubiquitous problem across fields ranging from medical devices to robotics.
+            These problems often involve using long sequences of raw sensor data (e.g. magnetometers, piezoresistors) to predict
+            sequences of desirable physical quantities (e.g. force, inertial measurements).While classical approaches are powerful for locally-linear prediction problems,
+            they often fall short when using real-world sensors.
+            These sensors are typically non-linear, are affected by extraneous variables (e.g. vibration), and exhibit data-dependent drift.
+            For many problems, the prediction task is exacerbated by small labeled datasets since obtaining ground-truth labels requires expensive equipment.
+            In this work, we present Hierarchical State-Space Models (<span class="dnerf">HiSS</span>), a conceptually simple, new technique for continuous sequential prediction.
+            <span class="dnerf">HiSS</span> stacks structured state-space models on top of each other to create a temporal hierarchy.
+            Across six real-world sensor datasets, from tactile-based state prediction to accelerometer-based inertial measurement,
+            <span class="dnerf">HiSS</span> outperforms prior sequence models such as causal transformers, LSTMs, S4, and Mamba by at least 23% on MSE.
+            Our experiments further indicate that <span class="dnerf">HiSS</span> demonstrates efficient scaling to smaller datasets and is compatible with
+            existing data-filtering techniques.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/hiss_video.mp4"
+                  type="video/mp4">
+        </video>
+
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+
+<section class="section">
+
+  <div class="container is-max-desktop">
+          <!-- HiSS. -->
+          <div class="columns is-centered">
+            <div class="column is-full-width">
+              <h2 class="title is-3">HiSS: Hierarchical State Space Models</h2>
+
+              <!-- Model Architecture. -->
+              <h3 class="title is-4">Model Architecture</h3>
+              <img src="./static/images/model-fig.jpg" alt="HiSS Model Architecture">
+              <div class="content has-text-centered">
+                <p>
+                  (Left) Flat SSM directly maps a sensor sequence to an output sequence.
+                </p>
+                <p>
+                  (Right) <span class="dnerf">HiSS</span> divides an input sequence into chunks which are processed into <i>chunk features</i> by a low-level SSM.
+                  A high-level SSM maps the resulting sequence to an output sequence.
+                </p>
+              </div>
+              <div class="content has-text-centered">
+              </div>
+              <!--/ Model Architecture. -->
+
+              <!-- Experiments and Results. -->
+              <h3 class="title is-4">Experiments and Results</h3>
+              <img src="./static/images/result_table.png" alt="HiSS Model Results">
+              <div class="content has-text-centered">
+                <p>
+                  Comparison of MSE prediction losses for flat and <span class="dnerf">HiSS</span> models on CSP-Bench. Reported numbers are averaged over 5 seeds for the best performing models.
+                  MW: Marker Writing, IS: Intrinsic Slip, R:RoNIN, V: VECtor, JC: Joystick Control, TC: TotalCapture
+                </p>
+              </div>
+              <div class="content has-text-centered">
+              </div>
+              <!--/ Experiments and Results. -->
+
+            </div>
+          </div>
+          <!--/ HiSS. -->
+
+    <h2 class="title is-3">CSP Datasets</h2>
+    <div class="columns is-centered">
+
+      <!-- Marker Writing Dataset -->
+      <div class="column">
+        <div class="content">
+          <h3 class="title is-4">Marker Writing Dataset</h3>
+          <p>
+            Including 1000 trajectories, each lasting 15-30 seconds,
+            recorded as a robot moves a grasped marker to 8-12 randomly chosen locations within a 10 x 10 cm²
+            workspace to make linear strikes on paper.
+          </p>
+          <p>
+            Prediction task: predict the strike velocity (δx/δt, δy/δt), given the ReSkin tactile signals.
+          </p>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/marker_writing_990.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <!--/ Marker Writing Dataset -->
+      <!-- Intrinsic Slip Dataset. -->
+      <div class="column">
+        <h3 class="title is-4">Intrinsic Slip Dataset</h3>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+            Including 1100 trajectories, each lasting 25-30 seconds,
+            recorded as a robot grasping and slipping along different boxes clamped to a table.
+            We used 10 distinct boxes and 4 sets of skins for 25 trajectories per combined pair.
+            </p>
+            <p>
+            Prediction task: predict velocity and orientation of the end-effector (δx/δt, δy/δt, δθ/δt), given the ReSkin tactile signals.
+            </p>
+            <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/intrinsic_slip.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Intrinsic Slip Dataset. -->
+    <div class="columns is-centered">
+
+      <!-- Joystick Control. -->
+      <div class="column">
+        <div class="content">
+          <h3 class="title is-4">Joystick Control Dataset</h3>
+          <p>
+            Including 1000 trajectories, each lasting 25-40 seconds,
+            recorded as Allegro Hand with Xela sensors mounted on a Franka arm interacting with
+            an Extreme3D Pro Joystick controlled.
+          </p>
+          <p>
+            Prediction task: predict X, Y and Z-twis states from the joystick, given the Xela tactile signals.
+          </p>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/joystick_control_450.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <!--/ Joystick Control. -->
+      <!-- RoNIN Datasets. -->
+      <div class="column">
+        <h3 class="title is-4">RoNIN Dataset<sup>[1]</sup></h3>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              <a
+              href="https://ronin.cs.sfu.ca/">RoNIN</a>
+              - IMU data from smartphone from 100 human subjects with ground-truth 3D trajectories under natural human motions.
+            </p>
+            <p>
+              <br>
+              Prediction task: predict X, Y axes velocity, given the IMU acceleration and gyroscope readings.
+            </p>
+            <video id="dollyzoom" autoplay controls muted loop playsinline height="150%">
+              <!-- <video id="dollyzoom" autoplay controls muted loop playsinline style="height: 500px;"> -->
+                <source src="./static/videos/ronin_output_video.mp4" type="video/mp4">
+            </video>
+            <p style="text-align: center;">
+              RONIN a006_2 sequence
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--/ RoNIN Datasets. -->
+
+    <div class="columns is-centered">
+
+      <!-- Vector Dataset. -->
+      <div class="column">
+        <div class="content">
+          <h3 class="title is-4">VECtor Dataset<sup>[2]</sup></h3>
+          <p>
+            <a
+            href="https://star-datasets.github.io/vector/">VECtor</a> - Indoor Multi-Sensor SLAM dataset collected by handheld platforms with versatile motion types.
+          </p>
+          <p>
+            Prediction task: predict X, Y and Z axes velocity, given the IMU acceleration and gyroscope readings.
+          </p>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="150%">
+            <source src="./static/videos/vector_desk_normal.mp4"
+                    type="video/mp4">
+          </video>
+          <p style="text-align: center;">
+            VECtor Desk Normal sequence
+          </p>
+        </div>
+      </div>
+      <!--/Vector Dataset. -->
+
+      <!-- TotalCapture Dataset. -->
+      <div class="column">
+        <h3 class="title is-4">TotalCapture Dataset<sup>[3]</sup></h3>
+        <div class="columns is-centered">
+          <div class="column content">
+
+            <p>
+              <a
+              href="https://cvssp.org/data/totalcapture/">TotalCapture</a> - 3D human pose estimation dataset with muli-view video, IMU and Vicon labelling.
+            </p>
+            <p>
+              Prediction task: predict X, Y and Z axes velocity of 21 joints, given the 12 IMUs' acceleration and orientation readings.
+            </p>
+            <video id="dollyzoom" autoplay controls muted loop playsinline height="150%">
+              <source src="./static/videos/acting1_stitched_output.mp4"
+                      type="video/mp4">
+            </video>
+            <p style="text-align: center;">
+              ToalCapture S1 acting1 sequence
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--/ TotalCapture Datasets. -->
+
+
+
+
+
+
+  </div>
+</section>
+
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section> -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p style="text-align: left;">
+        <sup>[1]</sup> Herath, S., Yan, H., and Furukawa, Y. Ronin: Robust neural inertial navigation in the wild: Benchmark, evaluations, & new methods. In 2020 IEEE International Conference on Robotics and Automation (ICRA), pp. 3146-3152. IEEE, 2020.
+      </p>
+      <p style="text-align: left;">
+        <sup>[2]</sup> Gao, L., Liang, Y., Yang, J., Wu, S., Wang, C., Chen, J., and Kneip, L. Vector: A versatile event-centric benchmark for multi-sensor slam. IEEE Robotics and Automation Letters, 7(3):8217-8224, 2022.
+      </p>
+      <p style="text-align: left;">
+        <sup>[3]</sup> Trumble, M., Gilbert, A., Malleson, C., Hilton, A., and Collomosse, J. Total capture: 3d human pose estimation fusing video and inertial sensors. In Proceedings of 28th British Machine Vision Conference, pp. 1-13, 2017.
+      </p>
+      <!-- <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a> -->
+      <!-- <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a> -->
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
